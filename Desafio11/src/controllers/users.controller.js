@@ -4,21 +4,21 @@ const passport = require('passport')
 const Users = require('../services/user.service')
 const authMiddleware = require('../middlewares/private-middleware')
 
-const UserRotuer = Router()
+const UserRouter = Router()
 
-UserRotuer.post('/', passport.authenticate('register', { session: false, failureRedirect : '/api/users/fail-Register'}),  
+UserRouter .post('/', passport.authenticate('register', { session: false, failureRedirect : '/api/users/fail-Register'}),  
     async ( req , res ) => {
         try {
-            res.status(HTTP_RESPONSES.CREATED).json({ message: "User successfully registered." , payload: users});
+            res.status(HTTP_RESPONSES.CREATED).json({ message: "User successfully registered." , payload: Users});
         } catch (error) {
             console.error('Error post UserRouter', error.message)
             res.status(HTTP_RESPONSES.INTERNAL_SERVER_ERROR)
         }
     })
 
-    UserRotuer.post('/', async (req, res) => {  
+    UserRouter .post('/', async (req, res) => {  
         try {
-            const newUser = await Users.newUserCar(req.body); 
+            const newUser = await Users.newUserCar(req.body) 
             res.status(HTTP_RESPONSES.CREATED).json({ message: "User successfully registered.", payload: newUser });
         } catch (error) {
             console.error('Error al crear usuario:', error.message);
@@ -26,7 +26,7 @@ UserRotuer.post('/', passport.authenticate('register', { session: false, failure
         }
     });
 
-    UserRotuer.get('/fail-Register', (req, res) => {
+    UserRouter .get('/fail-Register', (req, res) => {
         try {
             console.log('fail register')
             res.status(HTTP_RESPONSES.BAD_REQUEST).json({ message: 'Registration failed' });
@@ -37,14 +37,14 @@ UserRotuer.post('/', passport.authenticate('register', { session: false, failure
     });
     
 
-    UserRotuer.put('/', passport.authenticate(authMiddleware, { session: false, failureRedirect : '/api/users/fail-Register'}),  
+    UserRouter.put('/', passport.authenticate(authMiddleware, { session: false, failureRedirect : '/api/users/fail-Register'}),  
     async ( req , res ) => {
         try {
-            res.status(HTTP_RESPONSES.CREATED).json({ message: "User successfully registered." , payload: users});
+            res.status(HTTP_RESPONSES.CREATED).json({ message: "User successfully registered." , payload: Users});
         } catch (error) {
             console.error('Error post UserRouter', error.message)
             res.status(HTTP_RESPONSES.INTERNAL_SERVER_ERROR)
         }
     })
 
-module.exports = UserRotuer
+module.exports = UserRouter 

@@ -32,7 +32,6 @@ CartsRouter.get('/:id', async(req, res)=>{
 CartsRouter.get('/', async(req, res)=>{
     try {
         const cart = await Cart.allCarts()
-        console.log('Cart:', cart);
         res.render('cart',{  cart})
     } catch (error) {
         res.json({ error })
