@@ -56,7 +56,18 @@ const loginUser = async ( userData ) =>{
         return { token }
 }
 
-
+const updateUserCart = async (userId, cartId) => {
+    try {
+        const user = await userDao.getUserById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        user.carts = cartId;
+        await user.save();
+    } catch (error) {
+        throw error;
+    }
+};
 
 
 module.exports = {
@@ -64,5 +75,6 @@ module.exports = {
     allUser,
     userId,
     newUserCart,
-    loginUser
+    loginUser,
+    updateUserCart
 }

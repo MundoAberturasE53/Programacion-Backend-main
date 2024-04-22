@@ -9,24 +9,15 @@ const UserRouter = Router()
 UserRouter .post('/', passport.authenticate('register', { session: false, failureRedirect : '/api/users/fail-Register'}),  
     async ( req , res ) => {
         try {
-            res.status(HTTP_RESPONSES.CREATED).json({ message: "User successfully registered." , payload: Users});
+            const newUser = await Users.newUserCart(req.body) 
+            res.status(HTTP_RESPONSES.CREATED).json({ message: "User successfully registered.", payload: newUser });
         } catch (error) {
             console.error('Error post UserRouter', error.message)
             res.status(HTTP_RESPONSES.INTERNAL_SERVER_ERROR)
         }
     })
 
-    UserRouter .post('/', async (req, res) => {  
-        try {
-            const newUser = await Users.newUserCar(req.body) 
-            res.status(HTTP_RESPONSES.CREATED).json({ message: "User successfully registered.", payload: newUser });
-        } catch (error) {
-            console.error('Error al crear usuario:', error.message);
-            res.status(HTTP_RESPONSES.INTERNAL_SERVER_ERROR).json({ error: 'Error al crear usuario' });
-        }
-    });
-
-    UserRouter .get('/fail-Register', (req, res) => {
+    UserRouter.get('/fail-Register', (req, res) => {
         try {
             console.log('fail register')
             res.status(HTTP_RESPONSES.BAD_REQUEST).json({ message: 'Registration failed' });
