@@ -1,8 +1,8 @@
-const userDao = require('../Dao/userDao')
+const UserRepository = require('../repositories/userRepository')
 const { generateToken } = require('../utils/jwt.util')
 const { createCart } = require('./cart.service')
 
-const User = new userDao()
+const User = new UserRepository()
 
 const created = async ( newUser ) => {
     try {

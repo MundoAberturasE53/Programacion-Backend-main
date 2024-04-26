@@ -1,4 +1,4 @@
-const cartDao = require('../Dao/cartDao')
+const cartDao = require('../repositories/cartRepository')
 
 const Cart = new cartDao
 
@@ -66,6 +66,15 @@ const removed = async ( cid , pid ) => {
     }
 }
 
+const createTiket = async ( newTiketDTO ) => {
+    try {
+        return await Cart.tiketCreated( newTiketDTO )
+    } catch (error) {
+        throw error
+    }
+}
+
+
 module.exports = {
     createCart, 
     cartId,
@@ -74,5 +83,6 @@ module.exports = {
     deleted,
     cartUpdate,
     updatePro,
-    removed
+    removed,
+    createTiket
 }

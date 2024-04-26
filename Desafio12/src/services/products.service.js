@@ -1,29 +1,10 @@
-const productsDao = require('../Dao/productsDao')
+const productsRepository = require('../repositories/productsRepository')
 
-const Products = new productsDao()
+const Products = new productsRepository()
 
-const createProd = async () => {
+const createProd = async ( newProductDTO ) => {
     try {
-        const {
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock,
-            category
-        } = req.body
-
-        const newProductInf = {
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock,
-            category
-        }
-        const newProduct = await Products.createdProduct( newProductInf )
+        return await Products.createdProduct( newProductDTO )
     } catch (error) {
         throw error
     }
@@ -74,10 +55,20 @@ const softDelete = async ( id , updateData ) => {
     } 
 }
 
+const updateStock = async productsInStock => {
+    try {
+        const result = await productReposity.updateStock(productsInStock) 
+        return result
+    } catch (error) {
+        throw error
+      }  
+   }
+
 module.exports = {
     createProd,
     productId,
     allProducts,
     updateProd,
-    softDelete
+    softDelete,
+    updateStock
 }

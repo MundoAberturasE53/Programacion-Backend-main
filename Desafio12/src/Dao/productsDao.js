@@ -1,9 +1,9 @@
 const Products = require('../models/products.model')
 
 class ProductsDao{
-    async createdProduct( newProduct ){
+    async createdProduct( newProductDTO ){
         try{
-            return await Products.create( newProduct )
+            return await Products.create( newProductDTO )
         }catch (error){
             console.error(' Error created Product', error)
         }
@@ -42,6 +42,35 @@ class ProductsDao{
             console.error(' Error update Product', error)
         }
     }
+
+    async updateStock(productsInStock) {
+        try {
+            // Itera sobre cada producto en productsInStock
+            for (const product of productsInStock) {
+                // Encuentra el producto por su ID
+                const productId = product.product._id
+                const quantity = product.quantity
+    
+                const foundProduct = await getProductById(productId)
+    
+                if (!foundProduct) {
+                    throw new Error(`Producto con ID ${productId} no encontrado`)
+                }
+    
+                // Actualiza el stock restando la cantidad vendida
+                foundProduct.stock -= quantity
+    
+                // Guarda los cambios en la base de datos
+                await foundProduct.save()
+                console.log(`Stock del producto ${foundProduct.title} actualizado correctamente`)
+            }
+    
+            console.log('Todos los stocks actualizados correctamente')
+        } catch (error) {
+            console.error('Error al actualizar el stock:', error)
+        }
+      }
+
 }
 
 module.exports = ProductsDao

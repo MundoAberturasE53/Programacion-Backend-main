@@ -20,7 +20,7 @@ class CartDao{
             const newTiket = await Tiket.create( tiket )
             return newTiket 
         } catch (error) {
-            console.error('Error cartAdd',error);
+            console.error('Error Tiket Created',error);
         }
     }
 
@@ -142,6 +142,7 @@ class CartDao{
             console.error('Error removeProductFromCart', error)
         }
     }
+
 }
 
 module.exports = CartDao
